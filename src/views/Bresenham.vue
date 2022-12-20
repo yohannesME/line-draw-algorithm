@@ -38,6 +38,8 @@ export default {
     };
   },
   methods: {
+    // A recursive function that is supposed to draw a line from (x1, y1) to (x2, y2) using the
+    // Bresenham algorithm.
     bresenham() {
       if (this.x == this.x2 && this.y2 == this.y) {
         this.grid[this.y][this.x] = true;
@@ -56,6 +58,7 @@ export default {
       }
       this.bresenham();
     },
+    // Creating a grid of the size of the largest x and y coordinates.
     generateGrid() {
       this.changeX = this.x2 - this.x1;
       this.changeY = this.y2 - this.y1;

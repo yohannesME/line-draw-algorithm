@@ -8,6 +8,7 @@
       <div class="cord">X2<input type="number" v-model="x2" /></div>
       <div class="cord">Y2<input type="number" v-model="y2" /></div>
     </div>
+    <input type="range" min="100" max="9000" v-model="speed" />
     <div class="flex">
       <button @click="generateGrid">Calculate</button>
       <span :class="{ lightup: isSlope, word: true }" @click="isSlope = true"
@@ -39,6 +40,7 @@ export default {
       y2: 1,
       grid: null,
       isSlope: true,
+      speed: 1000,
     };
   },
   methods: {
@@ -48,7 +50,7 @@ export default {
       let tempy = this.y1;
       for (let i = 0; i < step + 1; i++) {
         await new Promise((resolve) => {
-          setTimeout(resolve, 1000);
+          setTimeout(resolve, this.speed);
         }).then(
           console.log(step, Math.round(tempy), Math.round(tempx), yinc, xinc),
           (this.grid[Math.round(tempy)][Math.round(tempx)] = true)
