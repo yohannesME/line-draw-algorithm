@@ -132,10 +132,25 @@
             >Y-increment: Change in Y/Steps Taken = {{ dy }}/{{ step }} =
             {{ Math.round(yinc) }}</p
           >
+          <p>Steps (Numbers are Rounded):</p>
           <div v-for="(step, index) in steps">
             <p>Step {{ index + 1 }}</p>
-            <p>X Value = {{ step[0] }}</p>
-            <p>Y Value = {{ step[1] }}</p>
+            <p v-if="index == 0"
+              >X Value = X + X-inrement = {{ x1 }} + {{ xinc }} =
+              {{ Math.round(step[0]) }}</p
+            >
+            <p v-else
+              >X Value = X + X-inrement {{ steps[index - 1][0] }} + {{ xinc }} =
+              {{ Math.round(step[0]) }}</p
+            >
+            <p v-if="index == 0"
+              >Y Value = Y + Y-inrement = {{ y1 }} + {{ yinc }} =
+              {{ Math.round(step[1]) }}</p
+            >
+            <p v-else
+              >Y Value = Y + Y-increment = {{ steps[index - 1][1] }} +
+              {{ yinc }} = {{ Math.round(step[1]) }}</p
+            >
           </div>
         </div>
         <p></p>
@@ -185,7 +200,7 @@ export default {
           ),
           (this.grid[Math.round(this.tempy)][Math.round(this.tempx)] = true)
         );
-        this.steps.push([this.tempy, this.tempx]);
+        this.steps.push([this.tempx, this.tempy]);
         this.tempx += this.xinc;
         this.tempy += this.yinc;
       }
