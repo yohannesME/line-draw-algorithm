@@ -91,12 +91,22 @@
       <div class="bg-[#2A303C] w-3/4 p-8 h-fit">
         <h2 class="font-bold text-xl">Result:</h2>
         <div class="w-full h-fit">
-          <div class="flex" v-for="y in grid">
+          <div class="flex pl-5">
+            <div
+              class="w-6 h-6 flex items-center justify-center"
+              v-for="(i, index) in grid[0]"
+            >
+              {{ index }}
+            </div>
+          </div>
+
+          <div class="flex" v-for="(y, index) in grid">
             <!-- <span>{{ y }}</span> -->
+            <div class="flex w-6 h-6">{{ index }}</div>
             <div
               :class="{ marked: x }"
-              class="w-4 h-4 bg-white border border-[#6419E6]"
-              v-for="x in y"
+              class="w-6 h-6 bg-white border border-[#6419E6]"
+              v-for="(x, index) in y"
             ></div>
             <div v-if="y == grid.length - 1">
               <h2 class="font-bold text-xl">Finished Rendering!!</h2>
