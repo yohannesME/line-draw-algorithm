@@ -93,6 +93,7 @@
         <div class="w-full h-fit">
           <div class="flex pl-5">
             <div
+              v-if="showSteps"
               class="w-6 h-6 flex items-center justify-center"
               v-for="(i, index) in grid[0]"
             >
@@ -114,8 +115,30 @@
           </div>
         </div>
       </div>
-      <div class="steps bg-[#2A303C] w-1/4 p-8">
+      <div class="steps bg-[#2A303C] w-1/4 p-8 flex flex-col overflow-y-auto">
         <h2 class="font-bold text-xl">Steps Taken:</h2>
+        <div v-if="showSteps">
+          <p>Original X: {{ x1 }}</p>
+          <p>Original Y: {{ y1 }}</p>
+          <p>Change in X: {{ dx }}</p>
+          <p>Change in Y: {{ dy }}</p>
+          <p>Slope: {{ slope }}</p>
+          <p>Steps Taken: {{ step }}</p>
+          <p
+            >X-increment: Change in X/Steps Taken = {{ dx }}/{{ step }} =
+            {{ Math.round(xinc) }}</p
+          >
+          <p
+            >Y-increment: Change in Y/Steps Taken = {{ dy }}/{{ step }} =
+            {{ Math.round(yinc) }}</p
+          >
+          <div v-for="(step, index) in steps">
+            <p>Step {{ index + 1 }}</p>
+            <p>X Value = {{ step[0] }}</p>
+            <p>Y Value = {{ step[1] }}</p>
+          </div>
+        </div>
+        <p></p>
       </div>
     </div>
   </div>
@@ -130,29 +153,47 @@ export default {
       x2: 5,
       y2: 1,
       grid: null,
+      dx: 0,
+      dy: 0,
+      xinc: 0,
+      yinc: 0,
+      slope: 0,
+      step: 0,
+      tempx: 0,
+      tempy: 0,
       isSlope: true,
       speed: 1000,
+      showSteps: false,
+      steps: [],
     };
   },
   methods: {
-    async drawGrid(step, xinc, yinc) {
+    async drawGrid() {
       window.setTimeout(() => {}, 0);
-      let tempx = this.x1;
-      let tempy = this.y1;
-      for (let i = 0; i < step + 1; i++) {
+      this.tempx = this.x1;
+      this.tempy = this.y1;
+      for (let i = 0; i < this.step + 1; i++) {
         await new Promise((resolve) => {
           setTimeout(resolve, this.speed);
         }).then(
-          console.log(step, Math.round(tempy), Math.round(tempx), yinc, xinc),
-          (this.grid[Math.round(tempy)][Math.round(tempx)] = true)
+          console.log(
+            this.step,
+            Math.round(this.tempy),
+            Math.round(this.tempx),
+            this.yinc,
+            this.xinc
+          ),
+          (this.grid[Math.round(this.tempy)][Math.round(this.tempx)] = true)
         );
-        tempx += xinc;
-        tempy += yinc;
+        this.steps.push([this.tempy, this.tempx]);
+        this.tempx += this.xinc;
+        this.tempy += this.yinc;
       }
     },
 
     generateGrid() {
       this.grid = null;
+      this.showSteps = true;
       let largex = this.y1 > this.y2 ? this.y1 : this.y2;
       largex += 1;
       this.grid = new Array(largex);
@@ -162,27 +203,30 @@ export default {
       for (let i = 0; i < largex; i++) {
         this.grid[i] = new Array(largey);
       }
-      let dx = this.x2 - this.x1;
-      let dy = this.y2 - this.y1;
+      this.dx = this.x2 - this.x1;
+      this.dy = this.y2 - this.y1;
 
-      let step = Math.abs(dx) > Math.abs(dy) ? Math.abs(dx) : Math.abs(dy);
-      let slope = dy / dx;
-      let yinc = 0;
-      let xinc = 0;
+      this.step =
+        Math.abs(this.dx) > Math.abs(this.dy)
+          ? Math.abs(this.dx)
+          : Math.abs(this.dy);
+      this.slope = this.dy / this.dx;
+      // let yinc = 0;
+      // let xinc = 0;
       if (!this.isSlope) {
-        yinc = dy / step;
-        xinc = dx / step;
+        this.yinc = this.dy / this.step;
+        this.xinc = this.dx / this.step;
       } else {
-        if (Math.abs(slope) > 1) {
-          xinc = 1 / slope;
-          yinc = 1;
+        if (Math.abs(this.slope) > 1) {
+          this.xinc = 1 / this.slope;
+          this.yinc = 1;
         } else {
-          xinc = 1;
-          yinc = slope;
+          this.xinc = 1;
+          this.yinc = this.slope;
         }
       }
 
-      this.drawGrid(step, xinc, yinc);
+      this.drawGrid();
     },
   },
 };
