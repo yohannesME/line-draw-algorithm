@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#242933] h-screen flex flex-col items-center">
+  <div class="bg-[#242933] min-h-screen flex flex-col items-center">
     <h1 class="text-2xl text-center font-bold py-4"
       >The Digital Differential Analyzer(DDA) Line Drawing Algorithm</h1
     >
@@ -64,11 +64,11 @@
           v-model="speed"
         />
         <div class="w-full flex justify-between text-xs px-2">
-          <span>Faster</span>
-          <span>|</span>
-          <span>|</span>
-          <span>|</span>
           <span>Slower</span>
+          <span>|</span>
+          <span>|</span>
+          <span>|</span>
+          <span>Faster</span>
         </div>
       </div>
     </div>
@@ -115,9 +115,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="steps bg-[#2A303C] w-1/4 h-fit p-8 overflow overflow-y-scroll"
-      >
+      <div class="steps bg-[#2A303C] w-1/4 p-8 overflow overflow-y-scroll">
         <div class="flex flex-col">
           <h2 class="font-bold text-xl">Steps Taken:</h2>
           <div v-if="showSteps">
@@ -159,7 +157,7 @@
                 <b>{{ Math.round(step[0]) }}</b></p
               >
               <p v-else
-                ><i>X Value</i> = X + X-inrement {{ steps[index - 1][0] }} +
+                ><i>X Value</i> = X + X-inrement = {{ steps[index - 1][0] }} +
                 {{ xinc }} = <b>{{ Math.round(step[0]) }}</b></p
               >
               <p v-if="index == 0"
@@ -208,7 +206,7 @@ export default {
       this.tempy = this.y1;
       for (let i = 0; i < this.step + 1; i++) {
         await new Promise((resolve) => {
-          setTimeout(resolve, this.speed);
+          setTimeout(resolve, 10000 - this.speed);
         }).then(
           console.log(
             this.step,
@@ -269,5 +267,8 @@ export default {
 <style scoped>
 .marked {
   background-color: #6419e6;
+}
+.steps {
+  max-height: inherit;
 }
 </style>
