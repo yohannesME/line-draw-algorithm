@@ -1,5 +1,4 @@
 <template>
-  <NavBarVue :isDDA="false"></NavBarVue>
   <div class="container">
     <h1>Bresenham Drawing Algorithm</h1>
     <div class="coordinates">
@@ -19,10 +18,8 @@
 </template>
 
 <script>
-import NavBarVue from "../components/NavBar.vue";
 export default {
   name: "Bresenham",
-  components: { NavBarVue },
   data() {
     return {
       x1: 9,
@@ -80,56 +77,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.flex {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-.word {
-  font-size: large;
-  cursor: pointer;
-}
-
-.lightup {
-  color: blueviolet;
-}
-.coordinates {
-  display: flex;
-
-  gap: 1rem;
-  border-color: red;
-}
-.coordinates > * {
-  flex: 1 1 33%;
-  flex-wrap: wrap;
-}
-.grid-container {
-  display: inline-block;
-}
-.flex-x {
-  width: 2rem;
-  height: 2rem;
-  background-color: white;
-  border-color: red;
-}
-.flex-y {
-  display: flex;
-  margin: 0.2rem;
-  gap: 0.2rem;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-.cord {
-  display: flex;
-  flex-direction: column;
-}
-.marked {
-  background-color: blueviolet;
-}
-</style>
+<style scoped></style>
