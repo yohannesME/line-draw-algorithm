@@ -1,7 +1,3 @@
-# Vue 3 + Vite
+# Line Drawing Algorithms
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+This repository contains an implementation of a line drawing algorithm in JavaSCript. The algorithm is capable of drawing a line between two given points on a 2D plane using the Bresenham's and the Digital Differential Analyzer line drawing algorithm.

@@ -1,36 +1,118 @@
 <template>
-  <NavBarVue :isDDA="true"></NavBarVue>
-  <div class="container">
-    <h1>The DDA Line Drawing Algorithm</h1>
-    <div class="coordinates">
-      <div class="cord">X1<input type="number" v-model="x1" /></div>
-      <div class="cord">Y1<input type="number" v-model="y1" /></div>
-      <div class="cord">X2<input type="number" v-model="x2" /></div>
-      <div class="cord">Y2<input type="number" v-model="y2" /></div>
+  <div class="bg-[#242933] h-screen flex flex-col items-center">
+    <h1 class="text-2xl text-center font-bold py-4"
+      >The Digital Differential Analyzer(DDA) Line Drawing Algorithm</h1
+    >
+    <div class="flex gap-4">
+      <div class="first flex flex-col gap-4">
+        <div class="form-control">
+          <label class="input-group input-group-md">
+            <span>X1</span>
+            <input
+              type="number"
+              placeholder="Type here"
+              v-model="x1"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
+        <div class="form-control">
+          <label class="input-group input-group-md">
+            <span>Y1</span>
+            <input
+              type="number"
+              placeholder="Type here"
+              v-model="y1"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
+      </div>
+      <div class="second flex flex-col gap-4">
+        <div class="form-control">
+          <label class="input-group input-group-md">
+            <span>X2</span>
+            <input
+              type="number"
+              placeholder="Type here"
+              v-model="x2"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
+        <div class="form-control">
+          <label class="input-group input-group-md">
+            <span>Y2</span>
+            <input
+              type="number"
+              placeholder="Type here"
+              v-model="y2"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
+      </div>
     </div>
-    <div class="flex">
-      <button @click="generateGrid">Calculate</button>
-      <span :class="{ lightup: isSlope, word: true }" @click="isSlope = true"
-        >Slope</span
-      >
-      <span :class="{ lightup: !isSlope, word: true }" @click="isSlope = false"
-        >DDA</span
-      >
+    <div class="speed w-full flex flex-col items-center py-4">
+      <span class="text-lg">Choose Speed</span>
+      <div class="flex flex-col w-1/2">
+        <input
+          type="range"
+          min="100"
+          max="9000"
+          class="range"
+          v-model="speed"
+        />
+        <div class="w-full flex justify-between text-xs px-2">
+          <span>Faster</span>
+          <span>|</span>
+          <span>|</span>
+          <span>|</span>
+          <span>Slower</span>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col items-center gap-4">
+      <span class="text-lg">Calculate With:</span>
+      <div class="flex gap-8">
+        <span :class="{ lightup: isSlope, word: true }" @click="isSlope = true"
+          >Slope Formula</span
+        >
+        <span
+          :class="{ lightup: !isSlope, word: true }"
+          @click="isSlope = false"
+          >DDA Formula</span
+        >
+      </div>
+      <button @click="generateGrid" class="btn btn-primary">Calculate</button>
     </div>
 
-    <div class="grid-container">
-      <div class="flex-y" v-for="y in grid">
-        <div :class="{ 'flex-x': true, marked: x }" v-for="x in y"></div>
+    <div class="flex gap-2 w-full h-fit px-4 my-4">
+      <div class="bg-[#2A303C] w-3/4 p-8 h-fit">
+        <h2 class="font-bold text-xl">Result:</h2>
+        <div class="w-full h-fit">
+          <div class="flex" v-for="y in grid">
+            <!-- <span>{{ y }}</span> -->
+            <div
+              :class="{ marked: x }"
+              class="w-4 h-4 bg-white border border-[#6419E6]"
+              v-for="x in y"
+            ></div>
+            <div v-if="y == grid.length - 1">
+              <h2 class="font-bold text-xl">Finished Rendering!!</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="steps bg-[#2A303C] w-1/4 p-8">
+        <h2 class="font-bold text-xl">Steps Taken:</h2>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import NavBarVue from "../components/NavBar.vue";
-
 export default {
-  components: { NavBarVue },
   data() {
     return {
       x1: 1,
@@ -39,6 +121,7 @@ export default {
       y2: 1,
       grid: null,
       isSlope: true,
+      speed: 1000,
     };
   },
   methods: {
@@ -48,7 +131,7 @@ export default {
       let tempy = this.y1;
       for (let i = 0; i < step + 1; i++) {
         await new Promise((resolve) => {
-          setTimeout(resolve, 1000);
+          setTimeout(resolve, this.speed);
         }).then(
           console.log(step, Math.round(tempy), Math.round(tempx), yinc, xinc),
           (this.grid[Math.round(tempy)][Math.round(tempx)] = true)
@@ -59,6 +142,7 @@ export default {
     },
 
     generateGrid() {
+      this.grid = null;
       let largex = this.y1 > this.y2 ? this.y1 : this.y2;
       largex += 1;
       this.grid = new Array(largex);
@@ -95,55 +179,7 @@ export default {
 </script>
 
 <style scoped>
-.flex {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-.word {
-  font-size: large;
-  cursor: pointer;
-}
-
-.lightup {
-  color: blueviolet;
-}
-.coordinates {
-  display: flex;
-
-  gap: 1rem;
-  border-color: red;
-}
-.coordinates > * {
-  flex: 1 1 33%;
-  flex-wrap: wrap;
-}
-.grid-container {
-  display: inline-block;
-}
-.flex-x {
-  width: 2rem;
-  height: 2rem;
-  background-color: white;
-  border-color: red;
-}
-.flex-y {
-  display: flex;
-  margin: 0.2rem;
-  gap: 0.2rem;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-.cord {
-  display: flex;
-  flex-direction: column;
-}
 .marked {
-  background-color: blueviolet;
+  background-color: #6419e6;
 }
 </style>
