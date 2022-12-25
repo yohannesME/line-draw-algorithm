@@ -118,38 +118,50 @@
       <div class="steps bg-[#2A303C] w-1/4 p-8 flex flex-col overflow-y-auto">
         <h2 class="font-bold text-xl">Steps Taken:</h2>
         <div v-if="showSteps">
-          <p>Original X: {{ x1 }}</p>
-          <p>Original Y: {{ y1 }}</p>
-          <p>Change in X: {{ dx }}</p>
-          <p>Change in Y: {{ dy }}</p>
-          <p>Slope: {{ slope }}</p>
-          <p>Steps Taken: {{ step }}</p>
           <p
-            >X-increment: Change in X/Steps Taken = {{ dx }}/{{ step }} =
-            {{ Math.round(xinc) }}</p
+            ><i>Original X:</i> <b>{{ x1 }}</b></p
           >
           <p
-            >Y-increment: Change in Y/Steps Taken = {{ dy }}/{{ step }} =
-            {{ Math.round(yinc) }}</p
+            ><i>Original Y:</i> <b>{{ y1 }}</b></p
           >
-          <p>Steps (Numbers are Rounded):</p>
-          <div v-for="(step, index) in steps">
+          <p
+            ><i>Change in X:</i> <b>{{ dx }}</b></p
+          >
+          <p
+            ><i>Change in Y:</i> <b>{{ dy }}</b></p
+          >
+          <p
+            ><i>Slope:</i> <b>{{ slope }}</b></p
+          >
+          <p
+            ><i>Steps Taken:</i> <b>{{ step }}</b></p
+          >
+          <p
+            ><i>X-increment:</i> Change in X/Steps Taken = {{ dx }}/{{ step }} =
+            <b>{{ Math.round(xinc) }}</b></p
+          >
+          <p
+            ><i>Y-increment:</i> Change in Y/Steps Taken = {{ dy }}/{{ step }} =
+            <b>{{ Math.round(yinc) }}</b></p
+          >
+          <p class="py-2"><b>Steps (Numbers are Rounded):</b></p>
+          <div v-for="(step, index) in steps" class="py-2">
             <p>Step {{ index + 1 }}</p>
             <p v-if="index == 0"
-              >X Value = X + X-inrement = {{ x1 }} + {{ xinc }} =
-              {{ Math.round(step[0]) }}</p
+              ><i>X Value</i> = X + X-inrement = {{ x1 }} + {{ xinc }} =
+              <b>{{ Math.round(step[0]) }}</b></p
             >
             <p v-else
-              >X Value = X + X-inrement {{ steps[index - 1][0] }} + {{ xinc }} =
-              {{ Math.round(step[0]) }}</p
+              ><i>X Value</i> = X + X-inrement {{ steps[index - 1][0] }} +
+              {{ xinc }} = <b>{{ Math.round(step[0]) }}</b></p
             >
             <p v-if="index == 0"
-              >Y Value = Y + Y-inrement = {{ y1 }} + {{ yinc }} =
-              {{ Math.round(step[1]) }}</p
+              ><i>Y Value</i> = Y + Y-inrement = {{ y1 }} + {{ yinc }} =
+              <b>{{ Math.round(step[1]) }}</b></p
             >
             <p v-else
-              >Y Value = Y + Y-increment = {{ steps[index - 1][1] }} +
-              {{ yinc }} = {{ Math.round(step[1]) }}</p
+              ><i>Y Value</i> = Y + Y-increment = {{ steps[index - 1][1] }} +
+              {{ yinc }} = <b>{{ Math.round(step[1]) }}</b></p
             >
           </div>
         </div>
