@@ -75,11 +75,15 @@
     <div class="flex flex-col items-center gap-4">
       <span class="text-lg">Calculate With:</span>
       <div class="flex gap-8">
-        <span :class="{ lightup: isSlope, word: true }" @click="isSlope = true"
+        <span
+          :class="{ lightup: isSlope, word: true }"
+          class="cursor-pointer"
+          @click="isSlope = true"
           >Slope Formula</span
         >
         <span
           :class="{ lightup: !isSlope, word: true }"
+          class="cursor-pointer"
           @click="isSlope = false"
           >DDA Formula</span
         >
@@ -137,18 +141,38 @@
             <p
               ><i>Steps Taken:</i> <b>{{ step }}</b></p
             >
-            <p
+            <p v-if="!isSlope"
               ><i>X-increment:</i> Change in X/Steps Taken = {{ dx }}/{{
                 step
               }}
               = <b>{{ Math.round(xinc) }}</b></p
             >
-            <p
+            <div v-else>
+              <p v-if="Math.abs(slope) > 1">
+                ><i>X-increment:</i> 1/Slope = 1/{{ slope }} =
+                <b>{{ Math.round(xinc) }}</b></p
+              >
+              <p v-else>
+                <i>X-increment:</i> 1 = {{ xinc }} =
+                <b>{{ Math.round(xinc) }}</b></p
+              ></div
+            >
+            <p v-if="!isSlope"
               ><i>Y-increment:</i> Change in Y/Steps Taken = {{ dy }}/{{
                 step
               }}
               = <b>{{ Math.round(yinc) }}</b></p
             >
+            <div v-else>
+              <p v-if="Math.abs(slope) > 1"
+                ><i>Y-increment:</i> 1 = {{ yinc }} =
+                <b>{{ Math.round(yinc) }}</b></p
+              >
+              <p v-else
+                ><i>Y-increment:</i> Slope = {{ slope }} =
+                <b>{{ Math.round(yinc) }}</b></p
+              >
+            </div>
             <p class="py-2"><b>Steps (Numbers are Rounded):</b></p>
             <div v-for="(step, index) in steps" class="py-2">
               <p>Step {{ index + 1 }}</p>
@@ -270,5 +294,8 @@ export default {
 }
 .steps {
   max-height: inherit;
+}
+.lightup {
+  color: yellow;
 }
 </style>
